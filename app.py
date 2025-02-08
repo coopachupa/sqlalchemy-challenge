@@ -32,4 +32,18 @@ app = Flask(_name_)
 #################################################
 @app.route("/")
 def home():
-    return 
+    return ("Available Routes:<br/>"
+            "/api/v1.0/precipitation<br/>"
+            "/api/v1.0/stations<br/>"
+            "/api/v1.0/tobs<br/>"
+            "/api/v1.0/<start><br/>"
+            "/api/v1.0/<start>/<end>")
+
+
+@app.route("/api/v1.0/stations")
+def stations():
+    session = Session(engine)
+    results = session.query(Station.station).all()
+    session.close()
+    return jsonify([station[0] for station in results])
+
